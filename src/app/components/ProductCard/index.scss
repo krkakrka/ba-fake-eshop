@@ -1,0 +1,32 @@
+.ProductCard {
+  width: 300px;
+  border-radius: 0 0 7px 7px;
+  border: 1px solid #f1f1f1;
+  border-top: none;
+  background: #f1f1f1;
+  margin: 10px;
+
+  &__image-wrapper {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &__info {
+    padding: 10px 20px;
+
+    h3 {
+      font-size: 22px;
+      line-height: 28px;
+      font-weight: 700;
+    }
+
+    &-price {
+      opacity: 0.5;
+    }
+  }
+}
