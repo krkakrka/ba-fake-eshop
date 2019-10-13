@@ -14,7 +14,7 @@ class App extends React.Component {
   async componentDidMount() {
     this.setState({ loading: true });
     try {
-      const result = await fetch('https://boiling-reaches-93648.herokuapp.com/food-shop/products');
+      const result = await fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products');
       const json = await result.json();
 
       if (result.ok) {
