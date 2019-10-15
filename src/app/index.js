@@ -1,7 +1,7 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
 import {
-  Router,
+  BrowserRouter,
   Switch,
   Route,
   Link
@@ -20,8 +20,6 @@ class App extends React.Component {
   };
 
   async componentDidMount() {
-    window.onpopstate = () => this.forceUpdate();
-
     this.setState({ loading: true });
     try {
       const result = await fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products');
@@ -37,13 +35,6 @@ class App extends React.Component {
     } finally {
       this.setState({ loading: false });
     }
-  }
-
-  handleLinkClick(event) {
-    event.preventDefault();
-    const path = event.target.attributes.getNamedItem('href').nodeValue;
-    window.history.pushState(null, null, path);
-    this.forceUpdate();
   }
 
   handleAddCart(product) {
@@ -62,26 +53,32 @@ class App extends React.Component {
       return <Loader type="TailSpin" />;
     }
 
-    switch(window.location.pathname) {
-      case '/':
-        return (
-          <div>
-            <ul>
-              <li><a href="/" onClick={this.handleLinkClick.bind(this)}>Home</a></li>
-              <li><a href="/cart" onClick={this.handleLinkClick.bind(this)}>Cart</a></li>
-              <li><a href="/favourites" onClick={this.handleLinkClick.bind(this)}>Favourites</a></li>
-            </ul>
-            {error && <p>{error}</p>}
-            <Home products={products} onAddCart={this.handleAddCart.bind(this)} />
-          </div>
-        );
-      case '/cart':
-        return <Home products={cartProducts} />;
-      case '/favourites':
-        return <Home products={favouriteProducts} />;
-      default:
-        return 404;
-    }
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <div>
+              <ul>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/cart">Cart</Link></li>
+                <li><Link to="/favourites">Favourites</Link></li>
+              </ul>
+              {error && <p>{error}</p>}
+              <Home products={products} onAddCart={this.handleAddCart.bind(this)} />
+            </div>
+          </Route>
+          <Route path="/cart">
+            <Home products={cartProducts} />
+          </Route>
+          <Route path="/favourites">
+            <Home products={favouriteProducts} />
+          </Route>
+          <Route path="*">
+            404
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    );
   }
 }
 
