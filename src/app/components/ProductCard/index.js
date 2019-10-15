@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 
-function ProductCard({ name, image, price, id, currencySymbol, onAddCart }) {
+function ProductCard({ name, image, price, id, currencySymbol, onAddCart, onAddFavourites }) {
   return (
     <div className="ProductCard" id={id}>
       <div className="ProductCard__image-wrapper">
@@ -14,6 +14,7 @@ function ProductCard({ name, image, price, id, currencySymbol, onAddCart }) {
           {currencySymbol}
         </p>
         <button onClick={onAddCart}>Add to cart</button>
+        <button onClick={onAddFavourites}>Add to favourites</button>
       </div>
     </div>
   );

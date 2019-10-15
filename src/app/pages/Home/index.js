@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import { ProductCard } from '../../components';
 
-function Home({ products, onAddCart }) {
+function Home({ products, onAddCart, onAddFavourites }) {
   return (
     <div className="Home">
       {!products.length && <p>Sorry, no products</p>}
@@ -11,6 +11,7 @@ function Home({ products, onAddCart }) {
           key={product.id}
           {...product}
           onAddCart={() => onAddCart(product)}
+          onAddFavourites={() => onAddFavourites(product)}
         />
       ))}
     </div>

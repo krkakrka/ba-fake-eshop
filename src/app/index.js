@@ -58,17 +58,8 @@ class App extends React.Component {
   }
 }
 
-function AppHooked() {
-  const error = '';
+function useProducts() {
   const [products, setProducts] = useState([]);
-  const [cartProducts, setCartProducts] = useState([]);
-  const [favouriteProducts, setFavouriteProducts] = useState([]);
-  const handleAddCart = (product) => {
-    const foundProduct = cartProducts.find(p => p.id === product.id);
-    if (!foundProduct) {
-      setCartProducts(cartProducts.concat(product));
-    }
-  };
 
   useEffect(() => {
     fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products')
@@ -78,19 +69,46 @@ function AppHooked() {
     .then(products => setProducts(products));
   }, []);
 
+  return [products, setProducts];
+}
+
+function useProductList(initialList) {
+  const [products, setProducts] = useState(initialList);
+
+  const addToList = (product) => {
+    const foundProduct = products.find(p => p.id === product.id);
+    if (!foundProduct) {
+      setProducts(products.concat(product));
+    }
+  };
+
+  return { products, addToList };
+}
+
+function AppHooked() {
+  const error = '';
+  const [products] = useProducts();
+  const {
+    products: cartProducts,
+    addToList: handleAddCart,
+  } = useProductList([]);
+  const {
+    products: favouriteProducts,
+    addToList: handleAddFavourites,
+  } = useProductList([]);
 
   return (
     <BrowserRouter>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/cart">Cart</Link></li>
+        <li><Link to="/favourites">Favourites</Link></li>
+      </ul>
+      {error && <p>{error}</p>}
       <Switch>
         <Route exact path="/">
           <div>
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/cart">Cart</Link></li>
-              <li><Link to="/favourites">Favourites</Link></li>
-            </ul>
-            {error && <p>{error}</p>}
-            <Home products={products} onAddCart={handleAddCart} />
+            <Home products={products} onAddCart={handleAddCart} onAddFavourites={handleAddFavourites} />
           </div>
         </Route>
         <Route path="/cart">
