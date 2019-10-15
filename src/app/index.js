@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Loader from 'react-loader-spinner';
 import {
   BrowserRouter,
@@ -9,6 +9,7 @@ import {
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import { Home } from './pages';
+import { nullLiteral } from '@babel/types';
 
 class App extends React.Component {
   state = {
@@ -53,33 +54,58 @@ class App extends React.Component {
       return <Loader type="TailSpin" />;
     }
 
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            <div>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/cart">Cart</Link></li>
-                <li><Link to="/favourites">Favourites</Link></li>
-              </ul>
-              {error && <p>{error}</p>}
-              <Home products={products} onAddCart={this.handleAddCart.bind(this)} />
-            </div>
-          </Route>
-          <Route path="/cart">
-            <Home products={cartProducts} />
-          </Route>
-          <Route path="/favourites">
-            <Home products={favouriteProducts} />
-          </Route>
-          <Route path="*">
-            404
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    );
+    return null;
   }
 }
 
-export default App;
+function AppHooked() {
+  const error = '';
+  const [products, setProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState([]);
+  const [favouriteProducts, setFavouriteProducts] = useState([]);
+  const handleAddCart = (product) => {
+    const foundProduct = cartProducts.find(p => p.id === product.id);
+    if (!foundProduct) {
+      setCartProducts(cartProducts.concat(product));
+    }
+  };
+
+  useEffect(() => {
+    fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products')
+    .then(result => {
+      return result.json();
+    })
+    .then(products => setProducts(products));
+  }, []);
+
+
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <div>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/cart">Cart</Link></li>
+              <li><Link to="/favourites">Favourites</Link></li>
+            </ul>
+            {error && <p>{error}</p>}
+            <Home products={products} onAddCart={handleAddCart} />
+          </div>
+        </Route>
+        <Route path="/cart">
+          <Home products={cartProducts} />
+        </Route>
+        <Route path="/favourites">
+          <Home products={favouriteProducts} />
+        </Route>
+        <Route path="*">
+          404
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  );
+}
+
+// export default App;
+export default AppHooked;
