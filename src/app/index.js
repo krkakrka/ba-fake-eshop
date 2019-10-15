@@ -1,5 +1,11 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
+import {
+  Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import { Home } from './pages';
@@ -40,6 +46,15 @@ class App extends React.Component {
     this.forceUpdate();
   }
 
+  handleAddCart(product) {
+    const foundProduct = this.state.cartProducts.find(p => p.id === product.id);
+    if (!foundProduct) {
+      this.setState({
+        cartProducts: this.state.cartProducts.concat(product),
+      });
+    }
+  }
+
   render() {
     const { error, loading, products, cartProducts, favouriteProducts } = this.state;
 
@@ -57,7 +72,7 @@ class App extends React.Component {
               <li><a href="/favourites" onClick={this.handleLinkClick.bind(this)}>Favourites</a></li>
             </ul>
             {error && <p>{error}</p>}
-            <Home products={products} onAddCart={console.log} />
+            <Home products={products} onAddCart={this.handleAddCart.bind(this)} />
           </div>
         );
       case '/cart':

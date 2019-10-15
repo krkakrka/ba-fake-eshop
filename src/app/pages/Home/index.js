@@ -17,4 +17,8 @@ function Home({ products, onAddCart }) {
   );
 }
 
+Home.defaultProps = {
+  onAddCart: (x) => (x)
+};
+
 export default Home;
