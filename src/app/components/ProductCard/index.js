@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 
-function ProductCard({ name, image, price, id, currencySymbol }) {
+function ProductCard({ name, image, price, id, currencySymbol, onAddCart }) {
   return (
     <div className="ProductCard" id={id}>
       <div className="ProductCard__image-wrapper">
@@ -13,6 +13,7 @@ function ProductCard({ name, image, price, id, currencySymbol }) {
           {price}
           {currencySymbol}
         </p>
+        <button onClick={onAddCart}>Add to cart</button>
       </div>
     </div>
   );

@@ -9,9 +9,13 @@ class App extends React.Component {
     loading: false,
     error: null,
     products: [],
+    cartProducts: [],
+    favouriteProducts: [],
   };
 
   async componentDidMount() {
+    window.onpopstate = () => this.forceUpdate();
+
     this.setState({ loading: true });
     try {
       const result = await fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products');
@@ -29,19 +33,40 @@ class App extends React.Component {
     }
   }
 
+  handleLinkClick(event) {
+    event.preventDefault();
+    const path = event.target.attributes.getNamedItem('href').nodeValue;
+    window.history.pushState(null, null, path);
+    this.forceUpdate();
+  }
+
   render() {
-    const { error, loading, products } = this.state;
+    const { error, loading, products, cartProducts, favouriteProducts } = this.state;
 
     if (loading) {
       return <Loader type="TailSpin" />;
     }
 
-    return (
-      <div>
-        {error && <p>{error}</p>}
-        <Home products={products} />
-      </div>
-    );
+    switch(window.location.pathname) {
+      case '/':
+        return (
+          <div>
+            <ul>
+              <li><a href="/" onClick={this.handleLinkClick.bind(this)}>Home</a></li>
+              <li><a href="/cart" onClick={this.handleLinkClick.bind(this)}>Cart</a></li>
+              <li><a href="/favourites" onClick={this.handleLinkClick.bind(this)}>Favourites</a></li>
+            </ul>
+            {error && <p>{error}</p>}
+            <Home products={products} onAddCart={console.log} />
+          </div>
+        );
+      case '/cart':
+        return <Home products={cartProducts} />;
+      case '/favourites':
+        return <Home products={favouriteProducts} />;
+      default:
+        return 404;
+    }
   }
 }
 
