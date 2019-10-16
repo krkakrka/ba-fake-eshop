@@ -1,8 +1,8 @@
 import React from 'react';
 import './index.scss';
-import { ProductCard } from '../../components';
+import { ProductCard } from '..';
 
-function Home({ products, onAddCart, onAddFavourites }) {
+function ProductCardGrid({ products, onAddCart, onAddFavourites }) {
   return (
     <div className="Home">
       {!products.length && <p>Sorry, no products</p>}
@@ -18,8 +18,4 @@ function Home({ products, onAddCart, onAddFavourites }) {
   );
 }
 
-Home.defaultProps = {
-  onAddCart: (x) => (x)
-};
-
-export default Home;
+export default ProductCardGrid;

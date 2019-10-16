@@ -8,67 +8,25 @@ import {
 } from "react-router-dom";
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-import { Home } from './pages';
-
-class App extends React.Component {
-  state = {
-    loading: false,
-    error: null,
-    products: [],
-    cartProducts: [],
-    favouriteProducts: [],
-  };
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-    try {
-      const result = await fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products');
-      const json = await result.json();
-
-      if (result.ok) {
-        this.setState({ products: json });
-      } else {
-        throw new Error('Failed response');
-      }
-    } catch (error) {
-      this.setState({ error: 'Oh no! Error!' });
-    } finally {
-      this.setState({ loading: false });
-    }
-  }
-
-  handleAddCart(product) {
-    const foundProduct = this.state.cartProducts.find(p => p.id === product.id);
-    if (!foundProduct) {
-      this.setState({
-        cartProducts: this.state.cartProducts.concat(product),
-      });
-    }
-  }
-
-  render() {
-    const { error, loading, products, cartProducts, favouriteProducts } = this.state;
-
-    if (loading) {
-      return <Loader type="TailSpin" />;
-    }
-
-    return null;
-  }
-}
+import { Home, Favourites, Cart } from './pages';
 
 function useProducts() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
 
   useEffect(() => {
+    setLoading(true);
     fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products')
     .then(result => {
       return result.json();
     })
-    .then(products => setProducts(products));
+    .then(products => setProducts(products))
+    .catch(() => setError('Oh no! Error!'))
+    .finally(() => setLoading(false));
   }, []);
 
-  return [products, setProducts];
+  return [products, loading, error];
 }
 
 function useProductList(initialList) {
@@ -85,8 +43,7 @@ function useProductList(initialList) {
 }
 
 function AppHooked() {
-  const error = '';
-  const [products] = useProducts();
+  const [products, loading, error] = useProducts();
   const {
     products: cartProducts,
     addToList: handleAddCart,
@@ -103,6 +60,7 @@ function AppHooked() {
         <li><Link to="/cart">Cart</Link></li>
         <li><Link to="/favourites">Favourites</Link></li>
       </ul>
+      {loading && <Loader type="TailSpin" />}
       {error && <p>{error}</p>}
       <Switch>
         <Route exact path="/">
@@ -111,10 +69,10 @@ function AppHooked() {
           </div>
         </Route>
         <Route path="/cart">
-          <Home products={cartProducts} />
+          <Cart products={cartProducts} />
         </Route>
         <Route path="/favourites">
-          <Home products={favouriteProducts} />
+          <Favourites products={favouriteProducts} />
         </Route>
         <Route path="*">
           404
@@ -124,5 +82,4 @@ function AppHooked() {
   );
 }
 
-// export default App;
 export default AppHooked;
