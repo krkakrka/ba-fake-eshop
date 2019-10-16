@@ -61,23 +61,24 @@ function AppHooked() {
         <li><Link to="/favourites">Favourites</Link></li>
       </ul>
       {loading && <Loader type="TailSpin" />}
-      {error && <p>{error}</p>}
-      <Switch>
-        <Route exact path="/">
-          <div>
-            <Home products={products} onAddCart={handleAddCart} onAddFavourites={handleAddFavourites} />
-          </div>
-        </Route>
-        <Route path="/cart">
-          <Cart products={cartProducts} />
-        </Route>
-        <Route path="/favourites">
-          <Favourites products={favouriteProducts} />
-        </Route>
-        <Route path="*">
-          404
-        </Route>
-      </Switch>
+      {error ? <p>{error}</p> :
+        <Switch>
+          <Route exact path="/">
+            <div>
+              <Home products={products} onAddCart={handleAddCart} onAddFavourites={handleAddFavourites} />
+            </div>
+          </Route>
+          <Route path="/cart">
+            <Cart products={cartProducts} />
+          </Route>
+          <Route path="/favourites">
+            <Favourites products={favouriteProducts} />
+          </Route>
+          <Route path="*">
+            404
+          </Route>
+        </Switch>
+      }
     </BrowserRouter>
   );
 }
