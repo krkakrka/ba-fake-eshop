@@ -9,7 +9,6 @@ import {
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import { Home } from './pages';
-import { nullLiteral } from '@babel/types';
 
 class App extends React.Component {
   state = {
