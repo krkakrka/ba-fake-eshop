@@ -43,7 +43,19 @@ function useProductList(initialList) {
   return { products, addToList };
 }
 
-function AppHooked({ products, loading, error, cartProducts, favouriteProducts, addToCart, addToFavourites }) {
+function AppHooked({
+  products,
+  loading,
+  error,
+  cartProducts,
+  favouriteProducts,
+  addToCart,
+  addToFavourites,
+  getProductsStarted,
+  gotProducts,
+  getProductsError,
+  getProductsEnd,
+}) {
   // const [products, loading, error] = useProducts();
   // const {
   //   products: cartProducts,
@@ -53,6 +65,15 @@ function AppHooked({ products, loading, error, cartProducts, favouriteProducts, 
   //   products: favouriteProducts,
   //   addToList: handleAddFavourites,
   // } = useProductList([]);
+  useEffect(() => {
+    getProductsStarted();
+
+    fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products')
+      .then(result => result.json())
+      .then(products => gotProducts(products))
+      .catch(() => getProductsError())
+      .finally(() => getProductsEnd());
+  }, []);
 
   return (
     <BrowserRouter>
@@ -96,8 +117,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addToCart: (product) => dispatch({ type: 'addToCart', product }),
-    addToFavourites: (product) => dispatch({ type: 'addToFavourites', product }),
+    addToCart: (product) => dispatch({ type: 'ADD_TO_CART', product }),
+    addToFavourites: (product) => dispatch({ type: 'ADD_TO_FAVOURITES', product }),
+    getProductsStarted: () => dispatch({ type: 'GET_PRODUCTS_START' }),
+    gotProducts: (products) => dispatch({ type: 'GOT_PRODUCTS', products }),
+    getProductsError: () => dispatch({ type: 'GET_PRODUCTS_ERROR' }),
+    getProductsEnd: () => dispatch({ type: 'GET_PRODUCTS_END' })
   };
 }
 
