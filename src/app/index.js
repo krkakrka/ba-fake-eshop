@@ -6,6 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { connect } from 'react-redux';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import { Home, Favourites, Cart } from './pages';
@@ -42,16 +43,16 @@ function useProductList(initialList) {
   return { products, addToList };
 }
 
-function AppHooked() {
-  const [products, loading, error] = useProducts();
-  const {
-    products: cartProducts,
-    addToList: handleAddCart,
-  } = useProductList([]);
-  const {
-    products: favouriteProducts,
-    addToList: handleAddFavourites,
-  } = useProductList([]);
+function AppHooked({ products, loading, error, cartProducts, favouriteProducts, addToCart, addToFavourites }) {
+  // const [products, loading, error] = useProducts();
+  // const {
+  //   products: cartProducts,
+  //   addToList: handleAddCart,
+  // } = useProductList([]);
+  // const {
+  //   products: favouriteProducts,
+  //   addToList: handleAddFavourites,
+  // } = useProductList([]);
 
   return (
     <BrowserRouter>
@@ -65,7 +66,7 @@ function AppHooked() {
         <Switch>
           <Route exact path="/">
             <div>
-              <Home products={products} onAddCart={handleAddCart} onAddFavourites={handleAddFavourites} />
+              <Home products={products} onAddCart={addToCart} onAddFavourites={addToFavourites} />
             </div>
           </Route>
           <Route path="/cart">
@@ -83,4 +84,24 @@ function AppHooked() {
   );
 }
 
-export default AppHooked;
+function mapStateToProps(state) {
+  return {
+    products: state.products,
+    loading: state.loading,
+    error: state.error,
+    cartProducts: state.cartProducts,
+    favouriteProducts: state.favouriteProducts
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addToCart: (product) => dispatch({ type: 'addToCart', product }),
+    addToFavourites: (product) => dispatch({ type: 'addToFavourites', product }),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppHooked);
