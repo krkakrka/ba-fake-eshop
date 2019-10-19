@@ -46,6 +46,12 @@ function fakeEShopReducer(state = INITIAL_STATE, action) {
       } else {
         return state;
       }
+    case 'GET_PRODUCTS_START':
+      return { ...state, loading: true, error: undefined };
+    case 'GET_PRODUCTS_END':
+        return { ...state, loading: false };
+    case 'GET_PRODUCTS_ERROR':
+        return { ...state, error: 'Oh no! Something went wrong!' };
     case 'GOT_PRODUCTS':
       return {...state, products: action.products };
     default:
