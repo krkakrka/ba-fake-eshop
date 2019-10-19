@@ -25,6 +25,10 @@ function AppHooked({
   getProductsEnd,
 }) {
   useEffect(() => {
+    if (products.length > 0) {
+      return;
+    }
+
     getProductsStarted();
 
     fetch('https://blooming-cove-33093.herokuapp.com/food-shop/products')
