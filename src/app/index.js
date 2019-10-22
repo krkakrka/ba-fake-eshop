@@ -8,8 +8,15 @@ import {
 } from "react-router-dom";
 import { connect } from 'react-redux';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-
 import { Home, Favourites, Cart } from './pages';
+import {
+  ADD_TO_CART,
+  ADD_TO_FAVOURITES,
+  GET_PRODUCTS_START,
+  GOT_PRODUCTS,
+  GET_PRODUCTS_ERROR,
+  GET_PRODUCTS_END
+} from './actions';
 
 function AppHooked({
   products,
@@ -41,9 +48,9 @@ function AppHooked({
   return (
     <BrowserRouter>
       <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/cart">Cart</Link></li>
-        <li><Link to="/favourites">Favourites</Link></li>
+        <li><Link to="/">{`Home (${products.length})`}</Link></li>
+        <li><Link to="/cart">{`Cart (${cartProducts.length})`}</Link></li>
+        <li><Link to="/favourites">{`Favourites (${favouriteProducts.length})`}</Link></li>
       </ul>
       {loading && <Loader type="TailSpin" />}
       {error ? <p>{error}</p> :
@@ -80,12 +87,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addToCart: (product) => dispatch({ type: 'ADD_TO_CART', product }),
-    addToFavourites: (product) => dispatch({ type: 'ADD_TO_FAVOURITES', product }),
-    getProductsStarted: () => dispatch({ type: 'GET_PRODUCTS_START' }),
-    gotProducts: (products) => dispatch({ type: 'GOT_PRODUCTS', products }),
-    getProductsError: () => dispatch({ type: 'GET_PRODUCTS_ERROR' }),
-    getProductsEnd: () => dispatch({ type: 'GET_PRODUCTS_END' })
+    addToCart: (product) => dispatch({ type: ADD_TO_CART, product }),
+    addToFavourites: (product) => dispatch({ type: ADD_TO_FAVOURITES, product }),
+    getProductsStarted: () => dispatch({ type: GET_PRODUCTS_START }),
+    gotProducts: (products) => dispatch({ type: GOT_PRODUCTS, products }),
+    getProductsError: () => dispatch({ type: GET_PRODUCTS_ERROR }),
+    getProductsEnd: () => dispatch({ type: GET_PRODUCTS_END })
   };
 }
 
