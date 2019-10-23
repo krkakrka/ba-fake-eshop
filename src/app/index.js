@@ -10,8 +10,6 @@ import { connect } from 'react-redux';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { Home, Favourites, Cart } from './pages';
 import {
-  ADD_TO_CART,
-  ADD_TO_FAVOURITES,
   GET_PRODUCTS_START,
   GOT_PRODUCTS,
   GET_PRODUCTS_ERROR,
@@ -24,8 +22,6 @@ function AppHooked({
   error,
   cartProducts,
   favouriteProducts,
-  addToCart,
-  addToFavourites,
   getProductsStarted,
   gotProducts,
   getProductsError,
@@ -56,9 +52,7 @@ function AppHooked({
       {error ? <p>{error}</p> :
         <Switch>
           <Route exact path="/">
-            <div>
-              <Home products={products} onAddCart={addToCart} onAddFavourites={addToFavourites} />
-            </div>
+            <Home products={products} />
           </Route>
           <Route path="/cart">
             <Cart products={cartProducts} />
@@ -87,8 +81,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addToCart: (product) => dispatch({ type: ADD_TO_CART, product }),
-    addToFavourites: (product) => dispatch({ type: ADD_TO_FAVOURITES, product }),
     getProductsStarted: () => dispatch({ type: GET_PRODUCTS_START }),
     gotProducts: (products) => dispatch({ type: GOT_PRODUCTS, products }),
     getProductsError: () => dispatch({ type: GET_PRODUCTS_ERROR }),

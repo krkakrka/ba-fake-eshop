@@ -2,16 +2,14 @@ import React from 'react';
 import './index.scss';
 import { ProductCard } from '..';
 
-function ProductCardGrid({ products, onAddCart, onAddFavourites }) {
+function ProductCardGrid({ products }) {
   return (
     <div className="Home">
       {!products.length && <p>Sorry, no products</p>}
       {products.map(product => (
         <ProductCard
           key={product.id}
-          {...product}
-          onAddCart={() => onAddCart(product)}
-          onAddFavourites={() => onAddFavourites(product)}
+          product={product}
         />
       ))}
     </div>
