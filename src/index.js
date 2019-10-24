@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'reset-css';
 import './index.scss';
 import App from './app';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import {
   ADD_TO_CART,
@@ -14,10 +14,8 @@ import {
   GET_PRODUCTS_END
 } from './app/actions';
 
-const INITIAL_STATE = {
+const INITIAL_PRODUCTS_STATE = {
   products: [],
-  cartProducts: [],
-  favouriteProducts: [],
   loading: false,
   error: undefined
 };
@@ -26,34 +24,34 @@ function productExists(products, product) {
   return products.find(p => p.id === product.id);
 }
 
-function fakeEShopReducer(state = INITIAL_STATE, action) {
+function cartProducts(state = [], action) {
   switch(action.type) {
     case ADD_TO_CART:
-      if (!productExists(state.cartProducts, action.product)) {
-        const newState = {
-          ...state,
-          cartProducts: [
-            ...state.cartProducts,
-            action.product
-          ]
-        };
-        return newState;
+      if (!productExists(state, action.product)) {
+        return [...state, action.product];
       } else {
         return state;
       }
+    default:
+      return state;
+  }
+}
+
+function favouriteProducts(state = [], action) {
+  switch(action.type) {
     case ADD_TO_FAVOURITES:
-      if (!productExists(state.favouriteProducts, action.product)) {
-        const newState = {
-          ...state,
-          favouriteProducts: [
-            ...state.favouriteProducts,
-            action.product
-          ]
-        };
-        return newState;
+      if (!productExists(state, action.product)) {
+        return [...state, action.product];
       } else {
         return state;
       }
+    default:
+      return state;
+  }
+}
+
+function products(state = INITIAL_PRODUCTS_STATE, action) {
+  switch(action.type) {
     case GET_PRODUCTS_START:
       return { ...state, loading: true, error: undefined };
     case GET_PRODUCTS_END:
@@ -66,6 +64,12 @@ function fakeEShopReducer(state = INITIAL_STATE, action) {
       return state;
   }
 }
+
+const fakeEShopReducer = combineReducers({
+  cartProducts,
+  favouriteProducts,
+  products
+})
 
 const store = createStore(
   fakeEShopReducer,

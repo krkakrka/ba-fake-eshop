@@ -71,9 +71,9 @@ function AppHooked({
 
 function mapStateToProps(state) {
   return {
-    products: state.products,
-    loading: state.loading,
-    error: state.error,
+    products: state.products.products,
+    loading: state.products.loading,
+    error: state.products.error,
     cartProducts: state.cartProducts,
     favouriteProducts: state.favouriteProducts
   };
