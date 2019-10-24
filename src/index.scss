@@ -6,3 +6,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+nav { 
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.eshop-link {
+  height: 50px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: 5px;
+}

@@ -43,11 +43,11 @@ function AppHooked({
 
   return (
     <BrowserRouter>
-      <ul>
-        <li><Link to="/">{`Home (${products.length})`}</Link></li>
-        <li><Link to="/cart">{`Cart (${cartProducts.length})`}</Link></li>
-        <li><Link to="/favourites">{`Favourites (${favouriteProducts.length})`}</Link></li>
-      </ul>
+      <nav>
+        <Link to="/" className="eshop-link">{`Home (${products.length})`}</Link>
+        <Link to="/cart" className="eshop-link">{`Cart (${cartProducts.length})`}</Link>
+        <Link to="/favourites" className="eshop-link">{`Favourites (${favouriteProducts.length})`}</Link>
+      </nav>
       {loading && <Loader type="TailSpin" />}
       {error ? <p>{error}</p> :
         <Switch>
