@@ -19,13 +19,17 @@ function ProductCard(props) {
         <img src={image} alt={`${name} product`} />
       </div>
       <div className="ProductCard__info">
-        <h3>{name}</h3>
-        <p className="ProductCard__info-price">
-          {price}
-          {currencySymbol}
-        </p>
-        {pathname !== '/cart' && <button onClick={() => addToCart(props.product)}>Add to cart</button>}
-        {pathname !== '/favourites' && <button onClick={() => addToFavourites(props.product)}>Add to favourites</button>}
+        <div>
+          <h3>{name}</h3>
+          <p className="ProductCard__info-price">
+            {price}
+            {currencySymbol}
+          </p>
+        </div>
+        <div className="ProductCard__buttons-container">
+          {pathname !== '/cart' && <button onClick={() => addToCart(props.product)}>Add to cart</button>}
+          {pathname !== '/favourites' && <button onClick={() => addToFavourites(props.product)}>Add to favourites</button>}
+        </div>
       </div>
     </div>
   );
