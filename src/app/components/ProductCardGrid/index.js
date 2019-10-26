@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { ProductCard } from '..';
+import ProductCard from '../ProductCard';
 
 function ProductCardGrid({ products }) {
   return (
