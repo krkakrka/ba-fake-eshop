@@ -20,8 +20,6 @@ function AppHooked({
   products,
   loading,
   error,
-  cartProducts,
-  favouriteProducts,
   getProductsStarted,
   gotProducts,
   getProductsError,
@@ -48,13 +46,13 @@ function AppHooked({
       {error ? <p>{error}</p> :
         <Switch>
           <Route exact path="/">
-            <Home products={products} />
+            <Home />
           </Route>
           <Route path="/cart">
-            <Cart products={cartProducts} />
+            <Cart />
           </Route>
           <Route path="/favourites">
-            <Favourites products={favouriteProducts} />
+            <Favourites />
           </Route>
           <Route path="*">
             404
@@ -70,8 +68,6 @@ function mapStateToProps(state) {
     products: state.products.products,
     loading: state.products.loading,
     error: state.products.error,
-    cartProducts: state.cartProducts,
-    favouriteProducts: state.favouriteProducts
   };
 }
 

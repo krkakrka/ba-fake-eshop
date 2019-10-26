@@ -1,3 +1,16 @@
-export { default as Home } from '../components/ProductCardGrid';
-export { default as Cart } from '../components/ProductCardGrid';
-export { default as Favourites } from '../components/ProductCardGrid';
+import { connect } from 'react-redux';
+import ProductCardGrid from '../components/ProductCardGrid';
+
+const Home = connect(
+  state => ({ products: state.products.products })
+)(ProductCardGrid);
+
+const Cart = connect(
+  state => ({ products: state.cartProducts })
+)(ProductCardGrid);
+
+const Favourites = connect(
+  state => ({ products: state.favouriteProducts })
+)(ProductCardGrid);
+
+export { Home, Cart, Favourites };
