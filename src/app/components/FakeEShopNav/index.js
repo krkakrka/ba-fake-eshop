@@ -7,12 +7,26 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-function FakeEShopNav({ products, cartProducts, favouriteProducts }) {
+
+const EShopLink = withRouter(
+  ({ to, children, location }) => {
+    const defaultClassName = 'FakeEShopNav__eshop-link';
+    const activeClassName = `${defaultClassName}-active`;
+    const className = `${defaultClassName} ${to === location.pathname ? activeClassName: '' }`;
+    return (
+      <Link to={to} className={className}>
+        {children}
+      </Link>
+    );
+  }
+);
+
+function FakeEShopNav({ products, cartProducts, favouriteProducts, location }) {
   return (
     <nav className="FakeEShopNav">
-      <Link to="/" className="FakeEShopNav__eshop-link">{`Home (${products.length})`}</Link>
-      <Link to="/cart" className="FakeEShopNav__eshop-link">{`Cart (${cartProducts.length})`}</Link>
-      <Link to="/favourites" className="FakeEShopNav__eshop-link">{`Favourites (${favouriteProducts.length})`}</Link>
+      <EShopLink to="/">{`Home (${products.length})`}</EShopLink>
+      <EShopLink to="/cart">{`Cart (${cartProducts.length})`}</EShopLink>
+      <EShopLink to="/favourites">{`Favourites (${favouriteProducts.length})`}</EShopLink>
     </nav>
   );
 }
@@ -25,11 +39,4 @@ function mapStateToProps(state) {
   };
 }
 
-const enhance = compose(
-  connect(
-    mapStateToProps
-  ),
-  withRouter,
-);
-
-export default enhance(FakeEShopNav);
+export default connect(mapStateToProps)(FakeEShopNav);
