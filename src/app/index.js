@@ -4,7 +4,6 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import { connect } from 'react-redux';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -15,6 +14,7 @@ import {
   GET_PRODUCTS_ERROR,
   GET_PRODUCTS_END
 } from './actions';
+import FakeEShopNav from './components/FakeEShopNav';
 
 function AppHooked({
   products,
@@ -43,11 +43,7 @@ function AppHooked({
 
   return (
     <BrowserRouter>
-      <nav>
-        <Link to="/" className="eshop-link">{`Home (${products.length})`}</Link>
-        <Link to="/cart" className="eshop-link">{`Cart (${cartProducts.length})`}</Link>
-        <Link to="/favourites" className="eshop-link">{`Favourites (${favouriteProducts.length})`}</Link>
-      </nav>
+      <FakeEShopNav />
       {loading && <Loader type="TailSpin" />}
       {error ? <p>{error}</p> :
         <Switch>

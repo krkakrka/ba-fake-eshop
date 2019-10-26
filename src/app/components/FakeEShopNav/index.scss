@@ -1,0 +1,22 @@
+.FakeEShopNav {
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  top: 0;
+  margin-top: 10px;
+  
+  &__eshop-link {
+    height: 100%;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin: 0 5px 0 5px;
+    box-sizing: border-box;
+    background: white;
+  }
+}
