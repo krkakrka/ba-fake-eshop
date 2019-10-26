@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import Loader from 'react-loader-spinner';
 import {
   BrowserRouter,
   Switch,
   Route,
 } from "react-router-dom";
 import { connect } from 'react-redux';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Loader from './components/Loader';
 import { Home, Favourites, Cart } from './pages';
 import {
   GET_PRODUCTS_START,
@@ -39,26 +38,29 @@ function AppHooked({
       .finally(() => getProductsEnd());
   }, []);
 
+  const routes = (
+    <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route path="/cart">
+        <Cart />
+      </Route>
+      <Route path="/favourites">
+        <Favourites />
+      </Route>
+      <Route path="*">
+        404
+      </Route>
+    </Switch>
+  );
+
   return (
     <BrowserRouter>
       <FakeEShopNav />
-      {loading && <Loader type="TailSpin" />}
-      {error ? <p>{error}</p> :
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-          <Route path="/favourites">
-            <Favourites />
-          </Route>
-          <Route path="*">
-            404
-          </Route>
-        </Switch>
-      }
+      {loading ? <Loader /> : (
+        error ? <p>{error}</p> : routes
+      )}
     </BrowserRouter>
   );
 }

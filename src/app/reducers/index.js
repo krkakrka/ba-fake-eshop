@@ -9,7 +9,7 @@ import {
 
 const INITIAL_PRODUCTS_STATE = {
   products: [],
-  loading: false,
+  loading: true,
   error: undefined
 };
 
