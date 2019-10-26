@@ -5,7 +5,6 @@ import {
 import './index.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 
 
 const EShopLink = withRouter(
