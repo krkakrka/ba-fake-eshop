@@ -33,7 +33,7 @@ function FakeEShopNav({ products, cartProducts, favouriteProducts, location }) {
 function mapStateToProps(state) {
   return {
     products: state.products.products,
-    cartProducts: state.cartProducts,
+    cartProducts: state.cartProducts.products,
     favouriteProducts: state.favouriteProducts
   };
 }

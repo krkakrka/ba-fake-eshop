@@ -13,15 +13,23 @@ const INITIAL_PRODUCTS_STATE = {
   error: undefined
 };
 
+const INITIAL_CART_PRODUCTS_STATE = {
+  products: [],
+  productToQuantity: {},
+}
+
 function productExists(products, product) {
   return products.find(p => p.id === product.id);
 }
 
-function cartProducts(state = [], action) {
+function cartProducts(state = INITIAL_CART_PRODUCTS_STATE, action) {
   switch(action.type) {
     case ADD_TO_CART:
-      if (!productExists(state, action.product)) {
-        return [...state, action.product];
+      if (!productExists(state.products, action.product)) {
+        return {
+          ...state,
+          products: [...state.products, action.product],
+        };
       } else {
         return state;
       }

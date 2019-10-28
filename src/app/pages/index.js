@@ -6,7 +6,7 @@ const Home = connect(
 )(ProductCardGrid);
 
 const Cart = connect(
-  state => ({ products: state.cartProducts })
+  state => ({ products: state.cartProducts.products })
 )(ProductCardGrid);
 
 const Favourites = connect(

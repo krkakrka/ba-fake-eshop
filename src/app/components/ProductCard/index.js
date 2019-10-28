@@ -12,6 +12,8 @@ function ProductCard(props) {
   const { name, image, price, id, currencySymbol } = props.product;
   const { pathname } = props.location;
   const { addToCart, addToFavourites } = props;
+  const { productToQuantity } = props.cartProducts;
+  const quantity = productToQuantity.id || 0;
 
   return (
     <div className="ProductCard" id={id}>
@@ -29,10 +31,19 @@ function ProductCard(props) {
         <div className="ProductCard__buttons-container">
           {pathname !== '/cart' && <button onClick={() => addToCart(props.product)}>Add to cart</button>}
           {pathname !== '/favourites' && <button onClick={() => addToFavourites(props.product)}>Add to favourites</button>}
+          <button>+</button>
+          <button>-</button>
+          <p>Quantity: {quantity}</p>
         </div>
       </div>
     </div>
   );
+}
+
+function mapStateToProps(state) {
+  return {
+    cartProducts: state.cartProducts,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -44,7 +55,7 @@ function mapDispatchToProps(dispatch) {
 
 const enhance = compose(
   connect(
-    undefined,
+    mapStateToProps,
     mapDispatchToProps
   ),
   withRouter,
