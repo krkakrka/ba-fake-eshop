@@ -3,16 +3,25 @@ import ReactDOM from 'react-dom';
 import 'reset-css';
 import './index.scss';
 import App from './app';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './app/reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import { apiMiddleware } from 'redux-api-middleware';
+import { getProducts } from './app/actions';
+import { loggerMiddleware } from './app/middlewares';
 
 const fakeEShopReducer = combineReducers(reducers);
 
 const store = createStore(
   fakeEShopReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeWithDevTools(
+    applyMiddleware(loggerMiddleware, thunk, apiMiddleware)
+  )
 );
+
+store.dispatch(getProducts());
 
 ReactDOM.render(
   <Provider store={store}>

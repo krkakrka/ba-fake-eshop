@@ -3,8 +3,7 @@ import {
   ADD_TO_FAVOURITES,
   GET_PRODUCTS_START,
   GOT_PRODUCTS,
-  GET_PRODUCTS_ERROR,
-  GET_PRODUCTS_END
+  GET_PRODUCTS_ERROR
 } from '../actions';
 
 const INITIAL_PRODUCTS_STATE = {
@@ -55,12 +54,10 @@ function products(state = INITIAL_PRODUCTS_STATE, action) {
   switch(action.type) {
     case GET_PRODUCTS_START:
       return { ...state, loading: true, error: undefined };
-    case GET_PRODUCTS_END:
-        return { ...state, loading: false };
     case GET_PRODUCTS_ERROR:
-        return { ...state, error: 'Oh no! Something went wrong!' };
+        return { ...state, error: 'Oh no! Something went wrong!', loading: false };
     case GOT_PRODUCTS:
-      return {...state, products: action.products };
+      return {...state, products: action.payload, loading: false};
     default:
       return state;
   }
