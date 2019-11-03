@@ -3,7 +3,8 @@ import {
   ADD_TO_FAVOURITES,
   GET_PRODUCTS_START,
   GOT_PRODUCTS,
-  GET_PRODUCTS_ERROR
+  GET_PRODUCTS_ERROR,
+  CHANGE_CART_QUANTITY,
 } from '../actions';
 
 const INITIAL_PRODUCTS_STATE = {
@@ -32,6 +33,16 @@ function cartProducts(state = INITIAL_CART_PRODUCTS_STATE, action) {
       } else {
         return state;
       }
+    case CHANGE_CART_QUANTITY:
+      const { product, quantity } = action;
+      const newProductToQuantity = {
+        ...state.productToQuantity,
+        [product.id]: quantity < 0 ? 0 : quantity
+      }
+      return {
+        ...state,
+        productToQuantity: newProductToQuantity
+      };
     default:
       return state;
   }
