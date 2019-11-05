@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import Loader from './components/Loader';
 import { Home, Favourites, Cart } from './pages';
 import FakeEShopNav from './components/FakeEShopNav';
+import Feedback from './components/Feedback';
 
 function AppHooked({
   loading,
@@ -33,6 +34,7 @@ function AppHooked({
   return (
     <BrowserRouter>
       <FakeEShopNav />
+      <Feedback />
       {loading ? <Loader /> : (
         error ? <p>{error}</p> : routes
       )}

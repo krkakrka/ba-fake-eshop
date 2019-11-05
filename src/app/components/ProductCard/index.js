@@ -6,14 +6,15 @@ import { compose } from 'redux';
 import {
   ADD_TO_CART,
   ADD_TO_FAVOURITES,
+  SET_CART_QUANTITY,
 } from '../../actions';
 
 function ProductCard(props) {
   const { name, image, price, id, currencySymbol } = props.product;
   const { pathname } = props.location;
-  const { addToCart, addToFavourites } = props;
+  const { addToCart, addToFavourites, setCartQuantity } = props;
   const { productToQuantity } = props.cartProducts;
-  const quantity = productToQuantity.id || 0;
+  const quantity = productToQuantity[id] || 0;
 
   return (
     <div className="ProductCard" id={id}>
@@ -31,8 +32,8 @@ function ProductCard(props) {
         <div className="ProductCard__buttons-container">
           {pathname !== '/cart' && <button onClick={() => addToCart(props.product)}>Add to cart</button>}
           {pathname !== '/favourites' && <button onClick={() => addToFavourites(props.product)}>Add to favourites</button>}
-          <button>+</button>
-          <button>-</button>
+          <button onClick={() => setCartQuantity(id, quantity + 1)}>+</button>
+          <button onClick={() => setCartQuantity(id, quantity - 1)}>-</button>
           <p>Quantity: {quantity}</p>
         </div>
       </div>
@@ -50,6 +51,7 @@ function mapDispatchToProps(dispatch) {
   return {
     addToCart: (product) => dispatch({ type: ADD_TO_CART, product }),
     addToFavourites: (product) => dispatch({ type: ADD_TO_FAVOURITES, product }),
+    setCartQuantity: (productId, quantity) => dispatch({ type: SET_CART_QUANTITY, productId, quantity }),
   };
 }
 

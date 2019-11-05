@@ -3,6 +3,7 @@ import {
   ADD_TO_FAVOURITES,
   GET_PRODUCTS_START,
   GOT_PRODUCTS,
+  SET_CART_QUANTITY,
   GET_PRODUCTS_ERROR
 } from '../actions';
 
@@ -32,6 +33,21 @@ function cartProducts(state = INITIAL_CART_PRODUCTS_STATE, action) {
       } else {
         return state;
       }
+    case SET_CART_QUANTITY: {
+      const { productId, quantity } = action;
+      if (quantity < 0) {
+        return state;
+      } else {
+        const newState = {
+          ...state,
+          productToQuantity: {
+            ...state.productToQuantity,
+            [productId]: quantity
+          }
+        };
+        return newState;
+      }
+    }
     default:
       return state;
   }
