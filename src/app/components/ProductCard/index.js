@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -9,15 +9,38 @@ import {
   SET_CART_QUANTITY,
 } from '../../actions';
 
-function ProductCard(props) {
+export function ProductCard(props) {
   const { name, image, price, id, currencySymbol } = props.product;
   const { pathname } = props.location;
   const { addToCart, addToFavourites, setCartQuantity } = props;
   const { productToQuantity } = props.cartProducts;
   const quantity = productToQuantity[id] || 0;
 
+  const textInputRef = React.createRef();
+
+  // useEffect(() => {
+  //   console.log(textInputRef.current.value)
+  // }, [])
+
+  // const [textValue, setTextValue] = useState('');
+  const textValue = '';
+  const setTextValue = () => {};
+
   return (
     <div className="ProductCard" id={id}>
+
+      <form onSubmit={(e) => { e.preventDefault(); e.persist(); console.log(textInputRef.current.value) }}>
+        <label>
+          Name:
+          <input type="text" name="name"
+            value={textValue}
+            ref={textInputRef}
+            onChange={(e) => setTextValue(e.target.value)}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+
       <div className="ProductCard__image-wrapper">
         <img src={image} alt={`${name} product`} />
       </div>

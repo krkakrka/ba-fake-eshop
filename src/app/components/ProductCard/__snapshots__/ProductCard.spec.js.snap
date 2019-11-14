@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductCard should render correct snapshot 1`] = `"<div class=\\"ProductCard\\" id=\\"prodId\\"><form><label>Name:<input type=\\"text\\" name=\\"name\\" value=\\"\\"></label><input type=\\"submit\\" value=\\"Submit\\"></form><div class=\\"ProductCard__image-wrapper\\"><img src=\\"imgUrl\\" alt=\\"name product\\"></div><div class=\\"ProductCard__info\\"><div><h3>name</h3><p class=\\"ProductCard__info-price\\">1$</p></div><div class=\\"ProductCard__buttons-container\\"><button>Add to cart</button><button>Add to favourites</button><button>+</button><button>-</button><p>Quantity: 0</p></div></div></div>"`;
