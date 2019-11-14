@@ -2,6 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import {
   MemoryRouter,
+  BrowserRouter
 } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import { Provider } from 'react-redux';
@@ -9,6 +10,7 @@ import renderer from 'react-test-renderer';
 import configureStore from 'redux-mock-store';
 import { ProductCard } from './index';
 import ContainerProductCard from './index';
+import { SET_CART_QUANTITY } from '../../actions';
 
 describe.only('ProductCard', () => {
   const mockProduct = { name: 'name', image: 'imgUrl', price: '1', currencySymbol: '$', id: 'prodId' }

@@ -18,13 +18,7 @@ export function ProductCard(props) {
 
   const textInputRef = React.createRef();
 
-  // useEffect(() => {
-  //   console.log(textInputRef.current.value)
-  // }, [])
-
-  // const [textValue, setTextValue] = useState('');
-  const textValue = '';
-  const setTextValue = () => {};
+  const [textValue, setTextValue] = useState('');
 
   return (
     <div className="ProductCard" id={id}>
